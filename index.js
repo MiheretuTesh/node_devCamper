@@ -14,6 +14,9 @@ const bootcamps = require('./routes/bootcamps');
 
 const app = express();
 
+//body pareser
+app.use(express.json());
+
 if(process.env.NODE_ENV !== 'DEVELOPMENRT'){
   app.use(morgan('dev'));
 }

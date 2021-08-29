@@ -1,3 +1,5 @@
+const Bootcamp = require("../models/Bootcamp");
+
 //@desc GET all bootcamps
 //@route /api/v1/bootcamps
 //@access public
@@ -22,13 +24,17 @@ exports.getBootcamp = (req, res, next) => {
 //@desc POST bootcamp
 //@route /api/v1/bootcamps
 //@access public
-exports.createBootcamp = (req, res, next) => {
-  res.status(200).json({
-    success: true,
-    message: "Create a new Bootcamp",
-  });
+exports.createBootcamp = async (req, res, next) => {
+  try{
+      const bootcamp = await Bootcamp.create(req.body);
+      res.status(200).json({
+          status: true,
+          bootcamp,
+      })
+  }catch(err){
+      console.log(err);
+  }
 };
-
 
 //@desc UPDATE bootcamp by id
 //@route /api/v1/bootcamps/:id
@@ -39,7 +45,6 @@ exports.updateBootcamp = (req, res, next) => {
     message: `Update bootcamp with ${req.params.id} ID`,
   });
 };
-
 
 //@desc DELETE bootcamp by id
 //@route /api/v1/bootcamps/:id
