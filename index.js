@@ -2,6 +2,7 @@ const express = require('express');
 const dotenv = require('dotenv');
 const morgan = require("morgan");
 const colors = require('colors');
+const errorHandler = require('./middleware/error');
 const connectDB = require("./db");
 dotenv.config();
 
@@ -24,6 +25,9 @@ if(process.env.NODE_ENV !== 'DEVELOPMENRT'){
 //Mount routers
 
 app.use('/api/v1/bootcamps', bootcamps);
+
+// Error middleware
+app.use(errorHandler);
 
 // if (process.env.NODE_ENV == "DEVELOPMENT") {
 //     app.use(morgan("dev"));

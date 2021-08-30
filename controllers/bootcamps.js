@@ -35,7 +35,7 @@ exports.getBootcamp = async (req, res, next) => {
       bootcamp,
     });
   } catch (error) {
-    console.log(error);
+    next(error);
   }
 };
 
