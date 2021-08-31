@@ -14,7 +14,7 @@ exports.getBootcamps = async (req, res, next) => {
       bootcamp,
     });
   } catch (error) {
-    console.log(error);
+    next(err);
   }
 };
 
@@ -35,9 +35,7 @@ exports.getBootcamp = async (req, res, next) => {
       bootcamp,
     });
   } catch (error) {
-    next(
-      new ErrorResponse(`Bootcamp with ID ${req.params.id} not found`, 404)
-    );
+    next(err);
   }
 };
 
@@ -67,17 +65,16 @@ exports.updateBootcamp = async (req, res, next) => {
     });
 
     if (!bootcamp) {
-      return res.status(400).json({
-        status: false,
-        message: "Bootcamp not found",
-      });
+      return next(
+        new ErrorResponse(`Bootcamp with ID ${req.params.id} not found`, 404)
+      );
     }
     res.status(200).json({
       status: true,
       bootcamp,
     });
   } catch (error) {
-    console.log(error);
+    next(err);
   }
 };
 
@@ -88,12 +85,12 @@ exports.deleteBootcamp = async (req, res, next) => {
   try {
     const bootcomp = await Bootcamp.findByIdAndDelete(req.params.id);
     if (!bootcomp) {
-      return res
-        .status(400)
-        .json({ status: false, message: "Bootcamp with this ID not found" });
+      return next(
+        new ErrorResponse(`Bootcamp with ID ${req.params.id} not found`, 404)
+      );
     }
     res.status(200).json({ status: true, bootcomp: null });
   } catch (error) {
-    console.log(error);
+    next(err);
   }
 };
