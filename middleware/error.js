@@ -8,10 +8,19 @@ const errorHandler = (err, req, res, next) => {
 
     console.log(err.stack.red);
 
+    console.log(err);
+
     //Mongoose bad ObjectId
     if(err.name == "CasstError"){
         const message = `Bootcamp with ID ${err.value} not found`;
         error = new ErrorHandler(message, 404);
+    }
+
+    // Mongoose duplicate key error handlling
+
+    if(err.code==11000){
+        const message = 'Duplicate field value entered';
+        error = new ErrorHandler(message, 400);
     }
 
 
