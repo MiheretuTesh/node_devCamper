@@ -1,5 +1,6 @@
 const Bootcamp = require("../models/Bootcamp");
 const ErrorResponse = require("../utils/errorResponse");
+const color = require('colors')
 
 //@desc GET all bootcamps
 //@route /api/v1/bootcamps
@@ -50,7 +51,7 @@ exports.createBootcamp = async (req, res, next) => {
       bootcamp,
     });
   } catch (err) {
-    console.log(err);
+    next(err);
   }
 };
 
