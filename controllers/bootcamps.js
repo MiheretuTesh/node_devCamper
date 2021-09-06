@@ -89,9 +89,9 @@ exports.deleteBootcamp = asyncHandler(async (req, res, next) => {
   }
 });
 
-//@desc DELETE bootcamp by id
-//@route /api/v1/bootcamps/:id
-//@access public
+//@desc GET bootcamps within a radius
+//@route /api/v1/bootcamps/radius/:zipcode/:distance
+//@access private
 exports.deleteBootcamp = asyncHandler(async (req, res, next) => {
   try {
     const bootcomp = await Bootcamp.findByIdAndDelete(req.params.id);

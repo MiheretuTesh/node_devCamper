@@ -1,10 +1,11 @@
 const express = require('express');
-const dotenv = require('dotenv');
+const dotenv = require('dotenv')
+dotenv.config({path:__dirname+'/.env'});
 const morgan = require("morgan");
 const colors = require('colors');
 const errorHandler = require('./middleware/error');
 const connectDB = require("./db");
-dotenv.config();
+// dotenv.config();
 
 //connect to database
 connectDB();
