@@ -1,37 +1,44 @@
 const Bootcamp = require("../models/Bootcamp");
 const ErrorResponse = require("../utils/errorResponse");
 const geocoder = require("../utils/geocoder");
-const color = require('colors')
-const asyncHandler = require('../middleware/asyncHandler');
+const color = require("colors");
+const asyncHandler = require("../middleware/asyncHandler");
 
 //@desc GET all bootcamps
 //@route /api/v1/bootcamps
 //@access public
 
 exports.getBootcamps = asyncHandler(async (req, res, next) => {
-    const bootcamp = await Bootcamp.find();
-    res.status(200).json({
-      status: true,
-      count: bootcamp.length,
-      bootcamp,
-    });
+  let query;
+  let queryStr = JSON.stringify(req.query);
+  queryStr = queryStr.replace(
+    /\b(gt|gte|lt|lte|in)\b/g,
+    (match) => `$${match}`
+  );
+  query = Bootcamp.find(JSON.parse(queryStr));
+  const bootcamps = await query;
+  res.status(200).json({
+    status: true,
+    count: bootcamps.length,
+    bootcamps,
+  });
 });
 
 //@desc GET  bootcamps by id
 //@route /api/v1/bootcamps/:id
 //@access public
-exports.getBootcamp = asyncHandler( async (req, res, next) => {
-    const bootcamp = await Bootcamp.findById(req.params.id);
+exports.getBootcamp = asyncHandler(async (req, res, next) => {
+  const bootcamp = await Bootcamp.findById(req.params.id);
 
-    if (!bootcamp) {
-      return next(
-        new ErrorResponse(`Bootcamp with ID ${req.params.id} not found`, 404)
-      );
-    }
-    res.status(200).json({
-      status: true,
-      bootcamp,
-    });
+  if (!bootcamp) {
+    return next(
+      new ErrorResponse(`Bootcamp with ID ${req.params.id} not found`, 404)
+    );
+  }
+  res.status(200).json({
+    status: true,
+    bootcamp,
+  });
 });
 
 //@desc POST bootcamp
@@ -110,13 +117,12 @@ exports.getBootcampsInRadius = asyncHandler(async (req, res, next) => {
   const radius = distance / 3963;
 
   const bootcamps = await Bootcamp.find({
-    location: { $geoWithin: { $centerSphere: [[lng, lat], radius] } }
+    location: { $geoWithin: { $centerSphere: [[lng, lat], radius] } },
   });
 
   res.status(200).json({
     success: true,
     count: bootcamps.length,
-    data: bootcamps
+    data: bootcamps,
   });
 });
-
