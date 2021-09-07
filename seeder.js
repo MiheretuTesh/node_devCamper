@@ -1,33 +1,37 @@
-const fs = require('fs');
-const mongoose = require('mongoose');
-const colors = require('colors');
-const dotenv = require('dotenv');
+const fs = require("fs");
+const mongoose = require("mongoose");
+const colors = require("colors");
+const dotenv = require("dotenv");
 
 // Load env vars
-dotenv.config({ path: './config/config.env' });
+dotenv.config();
 
 // Load models
-const Bootcamp = require('./models/Bootcamp');
-// const Course = require('./models/Course');
+const Bootcamp = require("./models/Bootcamp");
+const Course = require("./models/Course");
 // const User = require('./models/User');
 // const Review = require('./models/Review');
 
 // Connect to DB
-mongoose.connect(process.env.MONGO_URI, {
-  useNewUrlParser: true,
-  useCreateIndex: true,
-  useFindAndModify: false,
-  useUnifiedTopology: true
-});
+const connectDB = async () => {
+  const conn = await mongoose.connect(process.env.MONGO_DB, {
+    // useCreateIndex: true,
+    // useFindAndModify: true,
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  });
+  console.log(`MongoBD connected: ${conn.connection.host}`.cyan.underline.bold);
+};
+connectDB();
 
 // Read JSON files
 const bootcamps = JSON.parse(
-  fs.readFileSync(`${__dirname}/_data/bootcamps.json`, 'utf-8')
+  fs.readFileSync(`${__dirname}/_data/bootcamps.json`, "utf-8")
 );
 
-// const courses = JSON.parse(
-//   fs.readFileSync(`${__dirname}/_data/courses.json`, 'utf-8')
-// );
+const courses = JSON.parse(
+  fs.readFileSync(`${__dirname}/_data/courses.json`, "utf-8")
+);
 
 // const users = JSON.parse(
 //   fs.readFileSync(`${__dirname}/_data/users.json`, 'utf-8')
@@ -41,10 +45,10 @@ const bootcamps = JSON.parse(
 const importData = async () => {
   try {
     await Bootcamp.create(bootcamps);
-    // await Course.create(courses);
+    await Course.create(courses);
     // await User.create(users);
     // await Review.create(reviews);
-    console.log('Data Imported...'.green.inverse);
+    console.log("Data Imported...".green.inverse);
     process.exit();
   } catch (err) {
     console.error(err);
@@ -55,18 +59,18 @@ const importData = async () => {
 const deleteData = async () => {
   try {
     await Bootcamp.deleteMany();
-    // await Course.deleteMany();
+    await Course.deleteMany();
     // await User.deleteMany();
     // await Review.deleteMany();
-    console.log('Data Destroyed...'.red.inverse);
+    console.log("Data Destroyed...".red.inverse);
     process.exit();
   } catch (err) {
     console.error(err);
   }
 };
 
-if (process.argv[2] === '-i') {
+if (process.argv[2] === "-i") {
   importData();
-} else if (process.argv[2] === '-d') {
+} else if (process.argv[2] === "-d") {
   deleteData();
 }
