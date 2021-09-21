@@ -2,7 +2,7 @@ const Course = require("../models/Course");
 const ErrorResponse = require("../utils/errorResponse");
 const color = require("colors");
 const asyncHandler = require("../middleware/asyncHandler");
-
+const Bootcamp = require("../models/Bootcamp"); 
 
 // @desc      Get courses
 // @route     GET /api/v1/courses
@@ -31,7 +31,10 @@ exports.getCourses = asyncHandler(async (req, res, next) => {
 // @route     GET /api/v1/courses/:id
 // @access    Public
 exports.getCourse = asyncHandler(async (req, res, next) => {
-  const course = await Course.findById(req.params.id);
+  const course = await Course.findById(req.params.id).populate({
+    path: "bootcamp",
+    select: "name description"
+  });
 
   if (!course) {
     return next(
