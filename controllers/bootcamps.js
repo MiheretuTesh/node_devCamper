@@ -20,7 +20,7 @@ exports.getBootcamps = asyncHandler(async (req, res, next) => {
     /\b(gt|gte|lt|lte|in)\b/g,
     (match) => `$${match}`
   );
-  query = Bootcamp.find(JSON.parse(queryStr)).populate('courses');
+  query = Bootcamp.find(JSON.parse(queryStr)).populate("courses");
 
   // selecting query
   if (req.query.select) {
@@ -129,16 +129,15 @@ exports.updateBootcamp = asyncHandler(async (req, res, next) => {
 //@route /api/v1/bootcamps/:id
 //@access public
 exports.deleteBootcamp = asyncHandler(async (req, res, next) => {
-  
-    const bootcamp = await Bootcamp.findById(req.params.id);
-    if (!bootcamp) {
-      return next(
-        new ErrorResponse(`Bootcamp with ID ${req.params.id} not found`, 404)
-      );
-    }
+  const bootcamp = await Bootcamp.findById(req.params.id);
+  if (!bootcamp) {
+    return next(
+      new ErrorResponse(`Bootcamp with ID ${req.params.id} not found`, 404)
+    );
+  }
 
-    bootcamp.remove();
-    res.status(200).json({ status: true, bootcamp: null });
+  bootcamp.remove();
+  res.status(200).json({ status: true, bootcamp: null });
 });
 
 //@desc GET bootcamps within a radius
@@ -169,4 +168,20 @@ exports.getBootcampsInRadius = asyncHandler(async (req, res, next) => {
     count: bootcamps.length,
     data: bootcamps,
   });
+});
+
+//@desc Upload photo for bootcamp
+//@route PUT /api/v1/bootcamps/:id/photo
+//@access public
+exports.bootcampPhotoUpload = asyncHandler(async (req, res, next) => {
+  const bootcamp = await Bootcamp.findById(req.params.id);
+  if (!bootcamp) {
+    return next(
+      new ErrorResponse(`Bootcamp with ID ${req.params.id} not found`, 404)
+    );
+  }
+
+  if (!req.files) {
+    return next(new ErrorResponse("Please Upload file", 400));
+  }
 });

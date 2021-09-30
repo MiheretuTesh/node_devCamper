@@ -3,6 +3,7 @@ const dotenv = require('dotenv')
 dotenv.config({path:__dirname+'/.env'});
 const morgan = require("morgan");
 const colors = require('colors');
+const fileUpload = require('express-fileupload');
 const errorHandler = require('./middleware/error');
 const connectDB = require("./db");
 // dotenv.config();
@@ -23,6 +24,10 @@ app.use(express.json());
 if(process.env.NODE_ENV !== 'DEVELOPMENRT'){
   app.use(morgan('dev'));
 }
+
+//File upload middleware
+
+app.use(fileUpload());
 
 //Mount routers
 
