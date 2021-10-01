@@ -1,3 +1,4 @@
+const path = require('path');
 const express = require('express');
 const dotenv = require('dotenv')
 dotenv.config({path:__dirname+'/.env'});
@@ -28,6 +29,10 @@ if(process.env.NODE_ENV !== 'DEVELOPMENRT'){
 //File upload middleware
 
 app.use(fileUpload());
+
+// set static folder
+
+app.use(express.static(path.join(__dirname, 'public')));
 
 //Mount routers
 
