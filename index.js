@@ -5,6 +5,7 @@ dotenv.config({path:__dirname+'/.env'});
 const morgan = require("morgan");
 const colors = require('colors');
 const fileUpload = require('express-fileupload');
+const cookieParser = require('cookie-parser');
 const errorHandler = require('./middleware/error');
 const connectDB = require("./db");
 // dotenv.config();
@@ -24,6 +25,9 @@ const app = express();
 //body pareser
 app.use(express.json());
 
+// cookie parser
+app.use(cookieParser());
+
 if(process.env.NODE_ENV !== 'DEVELOPMENRT'){
   app.use(morgan('dev'));
 }
@@ -31,6 +35,8 @@ if(process.env.NODE_ENV !== 'DEVELOPMENRT'){
 //File upload middleware
 
 app.use(fileUpload());
+
+
 
 // set static folder
 
