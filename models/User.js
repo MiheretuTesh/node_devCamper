@@ -55,9 +55,13 @@ UserSchema.pre("save", async function (next) {
 });
 
 UserSchema.methods.getSignedJwtToken = () =>
-  jwt.sign({ id: this._id, name: this.name }, process.env.JWT_SECRET, {
+  jwt.sign({ id: this._id }, process.env.JWT_SECRET, {
     expiresIn: process.env.JWT_EXPIRE,
   });
+
+UserSchema.methods.matchPassword = async function (enteredPassword) {
+  return await bcrypt.compare(enteredPassword, this.password);
+};
 
 // Encrypt password using bcrypt
 // UserSchema.pre('save', async function (next) {
