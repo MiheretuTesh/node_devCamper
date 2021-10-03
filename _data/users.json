@@ -1,0 +1,58 @@
+[
+    {
+        "_id": "5d725a1b7b292f5f8ceff788",
+        "name": "Admin account",
+        "email": "admin@gmail.com",
+        "role": "user",
+        "password": "123456"
+    },
+    {
+        "_id": "5d725a1b7b292f5f8ceff744",
+        "name": "Publisher account",
+        "email": "publisher@gmail.com",
+        "role": "publisher",
+        "password": "123456"
+    },
+    {
+        "_id": "5d725a1b7b292f5f8ceff733",
+        "name": "User account",
+        "email": "user@gmail.com",
+        "role": "user",
+        "password": "123456"
+    },
+    {
+        "_id": "5d725a1b7b292f5f8ceff700",
+        "name": "Sasha Ryan",
+        "email": "sasha@gmail.com",
+        "role": "user",
+        "password": "123456"
+    },
+    {
+        "_id": "5d725a1b7b292f5f8ceff711",
+        "name": "Mary Williams",
+        "email": "mary@gmail.com",
+        "role": "publisher",
+        "password": "123456"
+    },
+    {
+        "_id": "5d725a1b7b292f5f8ceff722",
+        "name": "Kevin Smith",
+        "email": "kevin@gmail.com",
+        "role": "publisher",
+        "password": "123456"
+    },
+    {
+        "_id": "5d725a1b7b292f5f8ceff766",
+        "name": "John Doe",
+        "email": "john@gmail.com",
+        "role": "publisher",
+        "password": "123456"
+    },
+    {
+        "_id": "5d725a1b7b292f5f8ceff799",
+        "name": "Amu Teshe",
+        "email": "amu@gmail.com",
+        "role": "user",
+        "password": "123456"
+    }
+]
