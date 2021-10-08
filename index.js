@@ -1,23 +1,30 @@
 const path = require('path');
 const express = require('express');
-const dotenv = require('dotenv')
-dotenv.config({path:__dirname+'/.env'});
-const morgan = require("morgan");
+const dotenv = require('dotenv');
+const morgan = require('morgan');
 const colors = require('colors');
-const fileUpload = require('express-fileupload');
+const fileupload = require('express-fileupload');
 const cookieParser = require('cookie-parser');
+const mongoSanitize = require('express-mongo-sanitize');
+const helmet = require('helmet');
+const xss = require('xss-clean');
+const rateLimit = require('express-rate-limit');
+const hpp = require('hpp');
+const cors = require('cors');
 const errorHandler = require('./middleware/error');
-const connectDB = require("./db");
+const connectDB = require('./config/db');
 // dotenv.config();
 
 //connect to database
 connectDB();
 
 
-// Rout Files
+// Route files
 const bootcamps = require('./routes/bootcamps');
 const courses = require('./routes/courses');
 const auth = require('./routes/auth');
+const users = require('./routes/users');
+const reviews = require('./routes/reviews');
 
 
 const app = express();
@@ -36,6 +43,8 @@ if(process.env.NODE_ENV !== 'DEVELOPMENRT'){
 
 app.use(fileUpload());
 
+// Sanitize data
+app.use(mongoSanitize());
 
 
 // set static folder
@@ -47,6 +56,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/api/v1/bootcamps', bootcamps);
 app.use('/api/v1/courses', courses);
 app.use('/api/v1/auth', auth);
+app.use('/api/v1/users', users);
+app.use('/api/v1/reviews', reviews);
+
 // Error middleware
 app.use(errorHandler);
 
