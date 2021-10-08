@@ -46,6 +46,11 @@ app.use(fileUpload());
 // Sanitize data
 app.use(mongoSanitize());
 
+// Set security headers
+app.use(helmet());
+
+// Prevent XSS attacks
+app.use(xss());
 
 // set static folder
 
